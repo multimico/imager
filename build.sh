@@ -1,7 +1,14 @@
 #!/bin/bash
 
-RELEASE=21.10
-EXTENSION=ZHAW
+if [ -z $RELEASE ]
+then 
+  RELEASE=21.10
+fi
+
+if [ -z $EXTENSION ]
+then 
+  EXTENSION=ZHAW
+fi 
 
 ISO="ubuntu-$RELEASE-live-server-amd64.iso"
 
@@ -12,7 +19,19 @@ EFI=$(echo $ISO | sed -E "s/.iso/.efi/")
 mkdir -p /run/isobuild
 cd /run/isobuild
 
+if [ -f /data/$OUTPUTISO ]
+then
+  echo "Custom ISO already exists 👍"
+  exit 0
+fi
+
 wget https://releases.ubuntu.com/$RELEASE/$ISO
+
+if [ ! -f $ISO ]
+then
+  echo "No ISO Downloaded 😢"
+  exit 1
+fi 
 
 # Extract the MBR template
 dd if="$ISO" bs=1 count=446 of="$MBR"
@@ -53,8 +72,8 @@ xorriso -as mkisofs \
   -o "$OUTPUTISO" \
   iso_helper
 
-echo -n "Start copying the new ISO image ... "
+echo -n "Start copying the new ISO image ☕️ ... "
 
 cp $OUTPUTISO /data/$OUTPUTISO
 
-echo "YEAH!"
+echo "✅ 🥳"

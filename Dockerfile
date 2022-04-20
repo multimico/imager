@@ -12,12 +12,12 @@ RUN echo "v0029-1" && \
     apt-get update --yes && \
     apt-get install -y --no-install-recommends \
       wget \
+      ca-certificates \
       xorriso \
       p7zip-full \
       fakeroot \
       binutils \
       isolinux \
-      ca-certificates \
     && \
     apt-get autoremove --purge && \
     apt-get clean && \
