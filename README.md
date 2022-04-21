@@ -41,7 +41,7 @@ Similar approaches work on Linux.
 
 Otherwise other USB-imaging software (like Etcher) should work, too.
 
-## History 
+## History 
 
 The initial idea and logic is taken from https://gist.github.com/s3rj1k/55b10cd20f31542046018fcce32f103e
 
