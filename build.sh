@@ -44,7 +44,7 @@ dd if="$ISO" bs=512 skip="$SKIP" count="$SIZE" of="$EFI"
 xorriso -osirrox on -indev "$ISO" -extract / iso_helper && chmod -R +w iso_helper
 
 # Inject our autoinstall user data hook
-sed -i 's|---|ip=dhcp autoinstall "ds=nocloud-net;s=https://raw.githubusercontent.com/multimico/cluster/ci/" ---|g' iso_helper/boot/grub/grub.cfg
+sed -i 's|---|ip=dhcp autoinstall "ds=nocloud-net;s=https://raw.githubusercontent.com/multimico/init/cloud-init/" ---|g' iso_helper/boot/grub/grub.cfg
 
 # Integritätscheck noch auffrischen. 
 mv iso_helper/ubuntu .
