@@ -7,7 +7,7 @@ fi
 
 if [ -z $EXTENSION ]
 then 
-  EXTENSION=ZHAW
+  EXTENSION=multimico
 fi 
 
 ISO="ubuntu-$RELEASE-live-server-amd64.iso"
