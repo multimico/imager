@@ -37,6 +37,10 @@ docker build -t multimico/isobuilder:latest . && docker run -it --rm -v ~/Docume
 
 On Macs burn the new ISO image to a USB stick using `dd`:  https://thornelabs.net/posts/create-a-bootable-ubuntu-usb-drive-in-os-x.html
 
+The home directory where /data is stored in depends on the PC the image building process takes place.  
+```
+~/Documents/data/isobuilder/ubuntu-21.10-live-server-amd64-multimico.iso of=/dev/rdisk4 bs=1048576
+```
 Similar approaches work on Linux. 
 
 Otherwise other USB-imaging software (like Etcher) should work, too.
