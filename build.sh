@@ -22,6 +22,7 @@ cd /run/isobuild
 if [ -f /data/$OUTPUTISO ]
 then
   echo "Custom ISO already exists 👍"
+  echo "⚠️ You may want or need to delete the old image to get the latest updates!"
   exit 0
 fi
 
