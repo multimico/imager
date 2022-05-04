@@ -1,1 +1,3 @@
 .Dockerfile.swp
+.DS_Store
+isobuilder/ubuntu-21.10-live-server-amd64-multimico.iso
