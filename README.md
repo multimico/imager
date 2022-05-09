@@ -15,6 +15,8 @@ The result will be stored in `/data`. In order to keep the iso image, one needs 
 
 **Important:** This script will use ONLY official releases and ignores beta releases!
 
+**This repo has no releases.** The docker image is intended to be built and run if needed.
+
 ## Build the image builder container
 
 ```
@@ -38,6 +40,7 @@ docker build -t multimico/isobuilder:latest . && docker run -it --rm -v ~/Docume
 On Macs burn the new ISO image to a USB stick using `dd`:  https://thornelabs.net/posts/create-a-bootable-ubuntu-usb-drive-in-os-x.html
 
 The home directory where /data is stored in depends on the PC the image building process takes place.  
+
 ```
 ~/Documents/data/isobuilder/ubuntu-21.10-live-server-amd64-multimico.iso of=/dev/rdisk4 bs=1048576
 ```
