@@ -1,8 +1,12 @@
 #!/bin/bash
 
+# The default cloud init repo to use
+GH_CI_REPO=multimico/init
+GH_CI_BRANCH=cloud-init
+
 if [ -z $RELEASE ]
 then 
-  RELEASE=21.10
+  RELEASE=22.04
 fi
 
 if [ -z $EXTENSION ]
@@ -22,7 +26,7 @@ cd /run/isobuild
 if [ -f /data/$OUTPUTISO ]
 then
   echo "Custom ISO already exists 👍"
-  echo "⚠️ You may want or need to delete the old image to get the latest updates!"
+  echo "⚠️ You may want or need to delete the old image in order to get the latest updates!"
   exit 0
 fi
 
@@ -30,7 +34,7 @@ wget https://releases.ubuntu.com/$RELEASE/$ISO
 
 if [ ! -f $ISO ]
 then
-  echo "No ISO Downloaded 😢"
+  echo "No ISO Downloaded 💩"
   exit 1
 fi 
 
@@ -44,8 +48,11 @@ dd if="$ISO" bs=512 skip="$SKIP" count="$SIZE" of="$EFI"
 
 xorriso -osirrox on -indev "$ISO" -extract / iso_helper && chmod -R +w iso_helper
 
-# Inject our autoinstall user data hook
-sed -i 's|---|ip=dhcp autoinstall "ds=nocloud-net;s=https://raw.githubusercontent.com/multimico/init/cloud-init/" ---|g' iso_helper/boot/grub/grub.cfg
+# Inject the autoinstall cloud-init hook to grub
+sed -i "s|---|ip=dhcp autoinstall \"ds=nocloud-net;s=https://raw.githubusercontent.com/${GH_CI_REPO}/${GH_CI_BRANCH}/\" ---|g" iso_helper/boot/grub/grub.cfg
+
+# drop the timeout to 0 secs since we will boot headless
+sed -i "s|set timeout=30|set timeout=0|g" iso_helper/boot/grub/grub.cfg
 
 # Integritätscheck noch auffrischen. 
 mv iso_helper/ubuntu .
