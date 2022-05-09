@@ -39,7 +39,10 @@ then
 fi 
 
 # Extract the MBR template
-dd if="$ISO" bs=1 count=446 of="$MBR"
+# ubuntu 21.10 uses 446
+# ubuntu 22.04 uses 432
+# 512 should be correct as it is the first sector
+dd if="$ISO" bs=1 count=512 of="$MBR"
 
 # Extract EFI partition image
 SKIP=$(/sbin/fdisk -l "$ISO" | fgrep '.iso2 ' | awk '{print $2}')
