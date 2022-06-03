@@ -1,8 +1,22 @@
 #!/bin/bash
 
 # The default cloud init repo to use
-GH_CI_REPO=multimico/init
-GH_CI_BRANCH=cloud-init
+
+
+if [ -z $GIT_SERVER ]
+then 
+  GIT_SERVER=https://raw.githubusercontent.com
+fi
+
+if [ -z $GIT_REPO ]
+then 
+  GIT_REPO=multimico/init
+fi 
+
+if [ -z $GIT_BRANCH ]
+then 
+  GIT_BRANCH=cloud-init
+fi
 
 if [ -z $RELEASE ]
 then 
@@ -42,6 +56,7 @@ fi
 # ubuntu 21.10 uses 446
 # ubuntu 22.04 uses 432
 # 512 should be correct as it is the first sector
+# The  bootloader complains but fixes itself (at least for 21.10 and 22.04)
 dd if="$ISO" bs=1 count=512 of="$MBR"
 
 # Extract EFI partition image
@@ -52,7 +67,7 @@ dd if="$ISO" bs=512 skip="$SKIP" count="$SIZE" of="$EFI"
 xorriso -osirrox on -indev "$ISO" -extract / iso_helper && chmod -R +w iso_helper
 
 # Inject the autoinstall cloud-init hook to grub
-sed -i "s|---|ip=dhcp autoinstall \"ds=nocloud-net;s=https://raw.githubusercontent.com/${GH_CI_REPO}/${GH_CI_BRANCH}/\" ---|g" iso_helper/boot/grub/grub.cfg
+sed -i "s|---|ip=dhcp autoinstall \"ds=nocloud-net;s=${GIT_SERVER}/${GIT_REPO}/${GIT_BRANCH}/\" ---|g" iso_helper/boot/grub/grub.cfg
 
 # drop the timeout to 0 secs since we will boot headless
 sed -i "s|set timeout=30|set timeout=0|g" iso_helper/boot/grub/grub.cfg
