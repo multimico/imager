@@ -32,7 +32,7 @@ The objective of this project is to create a minimal Ubuntu live image that trig
 - Creation of a system user
 - Preparation of the system for remote management
 
-## How does the generated ISO-image work?
+## How does the new ISO-image work?
 
 **Important** The new ISO-image requires a publicly available cloud-init repository on github. The public cloud-init will include the (hashed) password of the systemuser and the initial list of authorised users. Take precautions for updating this information after bootstrapping. 
 
