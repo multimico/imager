@@ -12,7 +12,7 @@ The new ISO-image will be stored into the directory mounted on the containers `/
 
 The imager will only use official releases and ignores beta releases!
 
-## Accepted Environment Variables
+## Accepted Environment Variables
 
 - EXTENSION - extension for the updated image (default: `multimico`)
 - GIT_BRANCH - git branch to use for the cloud-init files (default: `cloud-init`)
