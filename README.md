@@ -22,6 +22,8 @@ The imager will only use official releases and ignores beta releases!
 
 ## Purpose 
 
+When setting up barebone hardware infrastructure, we cannot rely on the fancy tools of cloud providers and shiny MAAS tools often require additional infrastructure, which makes it impractical in smaller or in distributed settings. Yet, we want to build on the principles of Infrastructure as Code even for bootstrapping infrastructures in less sophisticated settings such as home labs, edge clusters, or fog computing systems.
+
 The image builder runs a minimal customisation of the default Ubuntu Server Image for implementing the Infrastructure as Code principle on top of GitHub's infrastructure. This is useful for creating reproducible infrastructure without facy tools such as MAAS.
 
 The objective of this project is to create a minimal Ubuntu live image that triggers a controlled installation sequence to run all installation steps *without* manual intervention (or with minimal human intervention). This is part of the so called *bootstrapping* phase of new hardware *before* it is available to tools such as Ansible. This phase includes the following steps: 
