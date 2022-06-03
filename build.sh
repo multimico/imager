@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# The default cloud init repo to use
-
-
+# The default customisation options
 if [ -z $GIT_SERVER ]
 then 
   GIT_SERVER=https://raw.githubusercontent.com
@@ -28,11 +26,15 @@ then
   EXTENSION=multimico
 fi 
 
+# Internal Variables 
+
 ISO="ubuntu-$RELEASE-live-server-amd64.iso"
 
 OUTPUTISO=$(echo $ISO | sed -E "s/.iso/-$EXTENSION.iso/")
 MBR=$(echo $ISO | sed -E "s/.iso/.mbr/")
 EFI=$(echo $ISO | sed -E "s/.iso/.efi/")
+
+# Bootstrap the build environment 
 
 mkdir -p /run/isobuild
 cd /run/isobuild
@@ -40,9 +42,11 @@ cd /run/isobuild
 if [ -f /data/$OUTPUTISO ]
 then
   echo "Custom ISO already exists 👍"
-  echo "⚠️ You may want or need to delete the old image in order to get the latest updates!"
+  echo "⚠️ You may want or need to delete or rename the old image in order to get the latest updates!"
   exit 0
 fi
+
+# Fetch the official Ubuntu ISO-image
 
 wget https://releases.ubuntu.com/$RELEASE/$ISO
 
@@ -72,14 +76,14 @@ sed -i "s|---|ip=dhcp autoinstall \"ds=nocloud-net;s=${GIT_SERVER}/${GIT_REPO}/$
 # drop the timeout to 0 secs since we will boot headless
 sed -i "s|set timeout=30|set timeout=0|g" iso_helper/boot/grub/grub.cfg
 
-# Integritätscheck noch auffrischen. 
+# update the integrity checks 
 mv iso_helper/ubuntu .
 
 (cd iso_helper; find '!' -name "md5sum.txt" '!' -path "./isolinux/*" -follow -type f -exec "$(which md5sum)" {} \; > ../md5sum.txt)
 
 mv md5sum.txt ubuntu iso_helper/
 
-# ISO neu bauen
+# rebuild the ISO-image
 
 xorriso -as mkisofs \
   -r -V "Ubuntu $RELEASE Autoinstaller" -J -joliet-long -l \
